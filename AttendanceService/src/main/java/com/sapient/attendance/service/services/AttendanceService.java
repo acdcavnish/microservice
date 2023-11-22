@@ -3,23 +3,26 @@ package com.sapient.attendance.service.services;
 import com.sapient.attendance.service.entities.Attendance;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public interface AttendanceService {
 
-    //create attendance
-
     Attendance create(Attendance attendance);
 
-    //get total attendance this week
     List<Attendance> getAttendance();
 
+    List<Attendance> getAttendanceByUserId(String userId);
 
-    //get all attendance by UserId
+    Attendance createSwipeIn(String userId, LocalDateTime swipeInTime);
 
-    List<Attendance> getAttendanceByUserId(String UserId);
+    Attendance createSwipeOut(String userId, LocalDateTime swipeOutTime);
 
+    int calculateTotalHours(String userId, LocalDate date);
 
+    List<Attendance> getAttendanceBetween(LocalDateTime startDateTime, LocalDateTime endDateTime);
 
+    void updateAttendance(Attendance attendance);
 }

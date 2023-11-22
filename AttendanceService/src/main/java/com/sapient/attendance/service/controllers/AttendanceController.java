@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -14,7 +15,21 @@ import java.util.List;
 public class AttendanceController {
     @Autowired
     private AttendanceService attendanceService;
-    //create rating
+
+    @PostMapping("/swipe-in")
+    public ResponseEntity<Attendance> createSwipeIn(@RequestParam String userId) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(attendanceService.createSwipeIn(userId, LocalDateTime.now()));
+    }
+
+    @PostMapping("/swipe-out")
+    public ResponseEntity<Attendance> createSwipeOut(@RequestParam String userId) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(attendanceService.createSwipeOut(userId, LocalDateTime.now()));
+    }
+
+    @GetMapping("/total-hours/{userId}")
+    public ResponseEntity<Integer> calculateTotalHours(@PathVariable String userId) {
+        return ResponseEntity.ok(attendanceService.calculateTotalHours(userId, LocalDateTime.now().toLocalDate()));
+    }
 
     @PostMapping
     public ResponseEntity<Attendance> create(@RequestBody Attendance attendance){
